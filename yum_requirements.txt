@@ -1,0 +1,7 @@
+postgresql-devel
+gcc-c++
+make
+python-devel
+gcc
+libffi-devel
+sudo

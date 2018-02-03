@@ -1,0 +1,74 @@
+version: '2'
+
+services:
+  redis:
+    image: redis:3.2.11
+    ports:
+      - "6379:6379"
+    networks:
+      - pytn-airflow
+
+  postgres:
+    image: postgres:10.1
+    environment:
+      - POSTGRES_USER=pytn
+      - POSTGRES_PASSWORD=pytn
+      - POSTGRES_DB=airflow
+    ports:
+       - "5432:5432"
+    networks:
+      - pytn-airflow
+
+  airflow:
+    container_name: webui
+    build: .
+    privileged: true
+    ports:
+      - "8080:8080"
+      - "8793:8793"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./plugins:/usr/local/airflow/plugins
+      - /var/airflow/logs
+    environment:
+      - EXECUTOR=Celery
+    command: webserver
+    networks:
+      - pytn-airflow
+
+  flower:
+    build: .
+    restart: always
+    environment:
+      - EXECUTOR=Celery
+    ports:
+      - "5555:5555"
+    command: flower
+    networks:
+      - pytn-airflow
+
+  scheduler:
+    build: .
+    restart: always
+    volumes_from:
+      - airflow
+    environment:
+      - EXECUTOR=Celery
+    command: scheduler -n 15
+    networks:
+      - pytn-airflow
+
+  worker:
+    build: .
+    privileged: true
+    restart: always
+    volumes_from:
+      - airflow
+    environment:
+      - EXECUTOR=Celery
+    command: worker
+    networks:
+      - pytn-airflow
+
+networks:
+  pytn-airflow:
