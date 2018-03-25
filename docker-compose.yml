@@ -6,18 +6,18 @@ services:
     ports:
       - "6379:6379"
     networks:
-      - pytn-airflow
+      - pycon-airflow
 
   postgres:
     image: postgres:10.1
     environment:
-      - POSTGRES_USER=pytn
-      - POSTGRES_PASSWORD=pytn
+      - POSTGRES_USER=pycon
+      - POSTGRES_PASSWORD=pycon
       - POSTGRES_DB=airflow
     ports:
        - "5432:5432"
     networks:
-      - pytn-airflow
+      - pycon-airflow
 
   airflow:
     container_name: webui
@@ -34,7 +34,7 @@ services:
       - EXECUTOR=Celery
     command: webserver
     networks:
-      - pytn-airflow
+      - pycon-airflow
 
   flower:
     build: .
@@ -45,7 +45,7 @@ services:
       - "5555:5555"
     command: flower
     networks:
-      - pytn-airflow
+      - pycon-airflow
 
   scheduler:
     build: .
@@ -56,7 +56,7 @@ services:
       - EXECUTOR=Celery
     command: scheduler -n 15
     networks:
-      - pytn-airflow
+      - pycon-airflow
 
   worker:
     build: .
@@ -68,7 +68,7 @@ services:
       - EXECUTOR=Celery
     command: worker
     networks:
-      - pytn-airflow
+      - pycon-airflow
 
 networks:
-  pytn-airflow:
+  pycon-airflow:

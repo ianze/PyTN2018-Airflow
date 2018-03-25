@@ -1,6 +1,6 @@
 Intro
 =====
-Airflow in dockerized version to be used during PyTN 2018 tutorial.
+Airflow in dockerized version to be used during Pycon 2018 tutorial.
 
 Inspired by https://github.com/puckel/docker-airflow/
 
