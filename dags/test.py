@@ -6,12 +6,12 @@ import time
 from pprint import pprint
 
 args = {
-    'owner': 'pycon',
+    'owner': 'pytn',
     'start_date': airflow.utils.dates.days_ago(2)
 }
 
 dag = DAG(
-    dag_id='pycon_python_operator', default_args=args,
+    dag_id='pytn_python_operator', default_args=args,
     schedule_interval=None)
 
 
